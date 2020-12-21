@@ -132,7 +132,7 @@ class CustomMessageHandler(MessageHandler):
                  friendly="",
                  allow_edit=False,
                  **kwargs):
-        super().__init__(filters, callback, **kwargs, run_async)
+        super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
                 Filters.update.edited_message
