@@ -61,7 +61,7 @@ class Config(object):
 
 
 class Production(Config):
-    LOGGER = True
+    LOGGER = False
 
 
 class Development(Config):
