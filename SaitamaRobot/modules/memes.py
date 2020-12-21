@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, Filters
 from telegram.utils.helpers import escape_markdown
 
 import SaitamaRobot.modules.helper_funcs.fun_strings as fun
-from SaitamaRobot import DEV_USERS, LOGGER, SUPPORT_USERS, dispatcher
+from SaitamaRobot import DEV_USERS, LOGGER, dispatcher
 from SaitamaRobot.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
@@ -267,9 +267,7 @@ def gbun(update, context):
     if update.effective_message.chat.type == "private":
         return
     if (
-        int(user.id) in SUDO_USERS
-        or int(user.id) in SUPPORT_USERS
-        or int(user.id) in DEV_USERS
+        int(user.id) in DEV_USERS
     ):
         context.bot.sendMessage(chat.id, (random.choice(fun.GBUN)))
 
