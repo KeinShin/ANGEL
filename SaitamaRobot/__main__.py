@@ -51,16 +51,16 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+Hi {}, I am an {} of the Telegram! 
+I am an Advanced modified group management bot.
+Build by weebs for weebs, I specialize in managing anime , movies and similar themed groups.
+BUT A SEDD NEWZ THAT U CAN'T USE ME IN A GROUP BECAUSE U CAN'T ADD ME !
+You can find my list of available commands with /help FOR DEMO.
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
+I'm an ANGEL For Fun and help admins manage their groups with One command! Have a look at the following for an idea of some of the things I can help you with.
 
 *Main* commands available:
  • /help: PM's you this message.
@@ -210,7 +210,7 @@ def start(update: Update, context: CallbackContext):
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                          InlineKeyboardButton(
                              text="🔔 Updates Channel",
-                             url="https://t.me/OnePunchUpdates")
+                             url="https://t.me/annihilatorrrr")
                      ],
                      [
                          InlineKeyboardButton(
