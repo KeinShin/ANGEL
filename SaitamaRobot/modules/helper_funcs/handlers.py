@@ -57,7 +57,7 @@ class CustomCommandHandler(CommandHandler):
                  admin_ok=False,
                  allow_edit=False,
                  **kwargs):
-        super().__init__(command, callback, **kwargs, run_async)
+        super().__init__(command, callback, **kwargs)
 
         if allow_edit is False:
             self.filters &= ~(
@@ -121,7 +121,7 @@ class CustomCommandHandler(CommandHandler):
 class CustomRegexHandler(RegexHandler):
 
     def __init__(self, pattern, callback, friendly="", **kwargs):
-        super().__init__(pattern, callback, **kwargs, run_async)
+        super().__init__(pattern, callback, **kwargs)
 
 
 class CustomMessageHandler(MessageHandler):
