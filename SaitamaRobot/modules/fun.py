@@ -4,22 +4,32 @@ import time
 
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.disable import (
+                                         DisableAbleCommandHandler,
+                                         DisableAbleMessageHandler,
+)
+from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram import ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
+from telegram.ext import CommandHandler, Filters
 from telegram.ext import CallbackContext, run_async
+from telegram.utils.helpers import escape_markdown
+
 
 GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE'
 
 
 @run_async
+@typing_action
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 
 @run_async
+@typing_action
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
@@ -28,6 +38,7 @@ def sanitize(update: Update, context: CallbackContext):
 
 
 @run_async
+@typing_action
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
@@ -37,6 +48,7 @@ def sanitize(update: Update, context: CallbackContext):
 
 
 @run_async
+@typing_action
 def slap(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -90,7 +102,14 @@ def slap(update: Update, context: CallbackContext):
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
-
+@run_async
+@typing_action
+def police(update: Update, context: CallbackContext):
+    message = update.effective_message.reply_text("Wuanjayy...")
+    for i in fun_strings.POLICE:
+        message.edit_text(i)
+        time.sleep(0.5)
+        
 @run_async
 def pat(update: Update, context: CallbackContext):
     bot = context.bot
@@ -133,10 +152,188 @@ def pat(update: Update, context: CallbackContext):
 
 
 @run_async
+@typing_action
 def roll(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(range(1, 7)))
+    
+@run_async
+@typing_action
+def copypasta(update: Update, context: CallbackContext):
+    message = update.effective_message
+    if not message.reply_to_message:
+        message.reply_text("I need a message to make pasta.")
+    else:
+        emojis = [
+            "😂",
+            "😂",
+            "👌",
+            "✌",
+            "💞",
+            "👍",
+            "👌",
+            "💯",
+            "🎶",
+            "👀",
+            "😂",
+            "👓",
+            "👏",
+            "👐",
+            "🍕",
+            "💥",
+            "🍴",
+            "💦",
+            "💦",
+            "🍑",
+            "🍆",
+            "😩",
+            "😏",
+            "👉👌",
+            "👀",
+            "👅",
+            "😩",
+            "🚰",
+        ]
+        reply_text = random.choice(emojis)
+        # choose a random character in the message to be substituted with 🅱️
+        b_char = random.choice(message.reply_to_message.text).lower()
+        for c in message.reply_to_message.text:
+            if c == " ":
+                reply_text += random.choice(emojis)
+            elif c in emojis:
+                reply_text += c
+                reply_text += random.choice(emojis)
+            elif c.lower() == b_char:
+                reply_text += "🅱️"
+            else:
+                if bool(random.getrandbits(1)):
+                    reply_text += c.upper()
+                else:
+                    reply_text += c.lower()
+        reply_text += random.choice(emojis)
+        message.reply_to_message.reply_text(reply_text)
 
 
+@run_async
+@typing_action
+def clapmoji(update: Update, context: CallbackContext):
+    message = update.effective_message
+    if not message.reply_to_message:
+        message.reply_text("I need a message to clap!")
+    else:
+        reply_text = "👏 "
+        reply_text += message.reply_to_message.text.replace(" ", " 👏 ")
+        reply_text += " 👏"
+        message.reply_to_message.reply_text(reply_text)
+
+
+@run_async
+@typing_action
+def owo(update: Update, context: CallbackContext):
+    message = update.effective_message
+    if not message.reply_to_message:
+        message.reply_text("I need a message to meme.")
+    else:
+        faces = [
+            "(・`ω´・)",
+            ";;w;;",
+            "owo",
+            "UwU",
+            ">w<",
+            "^w^",
+            r"\(^o\) (/o^)/",
+            "( ^ _ ^)∠☆",
+            "(ô_ô)",
+            "~:o",
+            ";____;",
+            "(*^*)",
+            "(>_",
+            "(♥_♥)",
+            "*(^O^)*",
+            "((+_+))",
+        ]
+        reply_text = re.sub(r"[rl]", "w", message.reply_to_message.text)
+        reply_text = re.sub(r"[ｒｌ]", "ｗ", message.reply_to_message.text)
+        reply_text = re.sub(r"[RL]", "W", reply_text)
+        reply_text = re.sub(r"[ＲＬ]", "Ｗ", reply_text)
+        reply_text = re.sub(r"n([aeiouａｅｉｏｕ])", r"ny\1", reply_text)
+        reply_text = re.sub(r"ｎ([ａｅｉｏｕ])", r"ｎｙ\1", reply_text)
+        reply_text = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply_text)
+        reply_text = re.sub(r"Ｎ([ａｅｉｏｕＡＥＩＯＵ])", r"Ｎｙ\1", reply_text)
+        reply_text = re.sub(r"\!+", " " + random.choice(faces), reply_text)
+        reply_text = re.sub(r"！+", " " + random.choice(faces), reply_text)
+        reply_text = reply_text.replace("ove", "uv")
+        reply_text = reply_text.replace("ｏｖｅ", "ｕｖ")
+        reply_text += " " + random.choice(faces)
+        message.reply_to_message.reply_text(reply_text)
+
+
+@run_async
+@typing_action
+def stretch(update: Update, context: CallbackContext):
+    message = update.effective_message
+    if not message.reply_to_message:
+        message.reply_text("I need a message to streeeeeeeeetch.")
+    else:
+        count = random.randint(3, 10)
+        reply_text = re.sub(
+            r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵ])",
+            (r"\1" * count),
+            message.reply_to_message.text)
+        if len(reply_text) >= MAX_MESSAGE_LENGTH:
+            return message.reply_text(
+                "Result of this message was too long for telegram!"
+            )
+
+        message.reply_to_message.reply_text(reply_text)
+
+
+@run_async
+@typing_action
+def me_too(update: Update, context: CallbackContext):
+    message = update.effective_message
+    reply = random.choice(
+        ["Me too thanks", "Haha yes, me too", "Same lol", "Me irl"])
+    message.reply_text(reply)
+
+
+@run_async
+@typing_action
+def goodnight(update: Update, context: CallbackContext):
+    message = update.effective_message
+    reply = random.choice(fun_strings.GDNIGHT)
+    message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+
+@run_async
+@typing_action
+def same(update: Update, context: CallbackContext):
+    message = update.effective_message
+    reply = random.choice(
+        ["Me too thanks", "Haha yes, me too", "Same lol", "Me irl", "Same sedd", "samee here too"])
+    message.reply_text(reply)
+
+@run_async
+@typing_action
+def goodmorning(update: Update, context: CallbackContext):
+    message = update.effective_message
+    reply = random.choice(fun_strings.GDMORNING)
+    message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+
+@run_async
+@typing_action
+def abuse(update: Update, context: CallbackContext):
+    # reply to correct message
+    reply_text = (
+        update.effective_message.reply_to_message.reply_text
+        if update.effective_message.reply_to_message
+        else update.effective_message.reply_text
+    )
+    reply_text(random.choice(fun_strings.ABUSE_STRINGS))
+    
+@run_async
+@typing_action
+def dice(update: Update, context: CallbackContext):
+    context.bot.sendDice(update.effective_chat.id)
+    
 @run_async
 def shout(update: Update, context: CallbackContext):
     args = context.args
@@ -152,7 +349,9 @@ def shout(update: Update, context: CallbackContext):
     return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
+
 @run_async
+@typing_action
 def toss(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(fun_strings.TOSS))
 
@@ -257,6 +456,7 @@ __help__ = """
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
  • `/8ball`*:* predicts using 8ball method 
+ and much more ...
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
