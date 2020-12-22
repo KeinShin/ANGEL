@@ -57,7 +57,7 @@ class CustomCommandHandler(CommandHandler):
                  admin_ok=False,
                  allow_edit=False,
                  **kwargs):
-        super().__init__(command, callback, run_async, **kwargs)
+        super().__init__(command, callback, **kwargs)
 
         if allow_edit is False:
             self.filters &= ~(
@@ -121,7 +121,7 @@ class CustomCommandHandler(CommandHandler):
 class CustomRegexHandler(RegexHandler):
 
     def __init__(self, pattern, callback, friendly="", **kwargs):
-        super().__init__(pattern, callback, run_async, **kwargs)
+        super().__init__(pattern, callback, **kwargs)
 
 
 class CustomMessageHandler(MessageHandler):
@@ -132,7 +132,7 @@ class CustomMessageHandler(MessageHandler):
                  friendly="",
                  allow_edit=False,
                  **kwargs):
-        super().__init__(filters, callback, run_async, **kwargs)
+        super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
                 Filters.update.edited_message
